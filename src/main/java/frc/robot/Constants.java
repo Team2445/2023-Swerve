@@ -22,21 +22,26 @@ public class Constants {
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(-1);
 
         // Swerve drive motors
+        // TODO: Find Module Offsets
         public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 0;
         public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 1;
         public static final int FRONT_LEFT_MODULE_ENCODER = 0;
+        public static final double FRONT_LEFT_MODULE_OFFSET = 0.0;
 
         public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 2;
         public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 3;
         public static final int FRONT_RIGHT_MODULE_ENCODER = 1;
+        public static final double FRONT_RIGHT_MODULE_OFFSET = 0.0;
 
         public static final int REAR_LEFT_MODULE_DRIVE_MOTOR = 4;
         public static final int REAR_LEFT_MODULE_STEER_MOTOR = 5;
         public static final int REAR_LEFT_MODULE_ENCODER = 2;
+        public static final double REAR_LEFT_MODULE_OFFSET = 0.0;
 
         public static final int REAR_RIGHT_MODULE_DRIVE_MOTOR = 6;
         public static final int REAR_RIGHT_MODULE_STEER_MOTOR = 7;
         public static final int REAR_RIGHT_MODULE_ENCODER = 3;
+        public static final double REAR_RIGHT_MODULE_OFFSET = 0.0;
 
         public static final double MAX_VOLTAGE = 12.0;
         // TODO: Change these two later
