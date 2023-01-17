@@ -9,17 +9,21 @@ import static frc.robot.Constants.DrivetrainConstants.DRIVETRAIN_WHEELBASE_METER
 import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_ENCODER;
 import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_STEER_MOTOR;
+import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_OFFSET;
 import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_ENCODER;
 import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_STEER_MOTOR;
+import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_OFFSET;
 import static frc.robot.Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
 import static frc.robot.Constants.DrivetrainConstants.MAX_VOLTAGE;
 import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_ENCODER;
 import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_STEER_MOTOR;
+import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_OFFSET;
 import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_DRIVE_MOTOR;
 import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_ENCODER;
 import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_STEER_MOTOR;
+import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_OFFSET;
 
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -32,10 +36,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -43,10 +49,8 @@ public class Drivetrain extends SubsystemBase {
     // Creates Swerve Modules (Drive Motor, Steer Motor, and Encoder)
     private SwerveModule frontLeftModule, frontRightModule, rearLeftModule, rearRightModule;
 
-    // TODO: Need to find gyro
     private Gyro gyro;
 
-    // TODO: Measure Trackwidth and Wheelbase for Kinematics
     private final SwerveDriveKinematics kinematics;
 
     private final SwerveDriveOdometry odometry;
@@ -56,6 +60,8 @@ public class Drivetrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
     public Drivetrain() {
       ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drive");
+
+      gyro = new ADXRS450_Gyro();
 
       kinematics = new SwerveDriveKinematics(
         new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -73,7 +79,7 @@ public class Drivetrain extends SubsystemBase {
         FRONT_LEFT_MODULE_DRIVE_MOTOR, 
         FRONT_LEFT_MODULE_STEER_MOTOR, 
         FRONT_LEFT_MODULE_ENCODER,
-        0
+        FRONT_LEFT_MODULE_OFFSET
       );
 
       frontRightModule = Mk3SwerveModuleHelper.createNeo(
@@ -83,8 +89,8 @@ public class Drivetrain extends SubsystemBase {
         Mk3SwerveModuleHelper.GearRatio.STANDARD, 
         FRONT_RIGHT_MODULE_DRIVE_MOTOR, 
         FRONT_RIGHT_MODULE_STEER_MOTOR, 
-        FRONT_RIGHT_MODULE_ENCODER, 
-        0
+        FRONT_RIGHT_MODULE_ENCODER,
+        FRONT_RIGHT_MODULE_OFFSET
       );
 
       rearRightModule = Mk3SwerveModuleHelper.createNeo(
@@ -94,8 +100,8 @@ public class Drivetrain extends SubsystemBase {
         Mk3SwerveModuleHelper.GearRatio.STANDARD, 
         REAR_LEFT_MODULE_DRIVE_MOTOR, 
         REAR_LEFT_MODULE_STEER_MOTOR, 
-        REAR_LEFT_MODULE_ENCODER, 
-        0
+        REAR_LEFT_MODULE_ENCODER,
+        REAR_LEFT_MODULE_OFFSET
       );
 
       rearLeftModule = Mk3SwerveModuleHelper.createNeo(
@@ -106,7 +112,7 @@ public class Drivetrain extends SubsystemBase {
         REAR_RIGHT_MODULE_DRIVE_MOTOR, 
         REAR_RIGHT_MODULE_STEER_MOTOR, 
         REAR_RIGHT_MODULE_ENCODER,
-        0
+        REAR_RIGHT_MODULE_OFFSET
       );
 
       odometry = new SwerveDriveOdometry(
@@ -154,6 +160,11 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      
+      SmartDashboard.putNumber("front left offset", frontLeftModule.getSteerEncoder().getAbsoluteAngle());
+      SmartDashboard.putNumber("front right offset", frontRightModule.getSteerEncoder().getAbsoluteAngle());
+      SmartDashboard.putNumber("rear left offset", rearLeftModule.getSteerEncoder().getAbsoluteAngle());
+      SmartDashboard.putNumber("rear right offset", rearRightModule.getSteerEncoder().getAbsoluteAngle());
 
       odometry.update(
         gyro.getRotation2d(),

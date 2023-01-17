@@ -17,9 +17,8 @@ public class Constants {
     public static class DrivetrainConstants {
 
         // Swerve drive measurements
-        // TODO: Measure Wheelbase and Trackwidth of Swerve drive (https://upload.wikimedia.org/wikipedia/commons/5/52/Wheelbase_and_Track.png)
-        public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(-1);
-        public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(-1);
+        public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(23.25);
+        public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(23.25);
 
         // Swerve drive motors
         // TODO: Find Module Offsets
