@@ -4,28 +4,11 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.DrivetrainConstants.DRIVETRAIN_TRACKWIDTH_METERS;
-import static frc.robot.Constants.DrivetrainConstants.DRIVETRAIN_WHEELBASE_METERS;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_ENCODER;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_STEER_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_LEFT_MODULE_OFFSET;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_ENCODER;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_STEER_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.FRONT_RIGHT_MODULE_OFFSET;
-import static frc.robot.Constants.DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND;
-import static frc.robot.Constants.DrivetrainConstants.MAX_VOLTAGE;
-import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_DRIVE_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_ENCODER;
-import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_STEER_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.REAR_LEFT_MODULE_OFFSET;
-import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_DRIVE_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_ENCODER;
-import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_STEER_MOTOR;
-import static frc.robot.Constants.DrivetrainConstants.REAR_RIGHT_MODULE_OFFSET;
+import static frc.robot.Constants.DrivetrainConstants.*;
 
-import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
+import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
+import com.swervedrivespecialties.swervelib.MotorType;
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -71,49 +54,49 @@ public class Drivetrain extends SubsystemBase {
       );
       
       // TODO: Determine Offsets
-      frontLeftModule = Mk3SwerveModuleHelper.createNeo(
-        shuffleboardTab.getLayout("front left module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(0, 0), 
-        Mk3SwerveModuleHelper.GearRatio.STANDARD, 
-        FRONT_LEFT_MODULE_DRIVE_MOTOR, 
-        FRONT_LEFT_MODULE_STEER_MOTOR, 
-        FRONT_LEFT_MODULE_ENCODER,
-        FRONT_LEFT_MODULE_OFFSET
-      );
+      frontLeftModule = new MkSwerveModuleBuilder()
+        .withLayout(shuffleboardTab.getLayout("front left module", BuiltInLayouts.kList)
+          .withSize(2, 4)
+          .withPosition(0, 0))
+        .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
+        .withDriveMotor(MotorType.NEO, FRONT_LEFT_MODULE_DRIVE_MOTOR)
+        .withSteerMotor(MotorType.NEO, FRONT_LEFT_MODULE_STEER_MOTOR)
+        .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_MOTOR)
+        .withSteerOffset(FRONT_LEFT_MODULE_OFFSET)
+        .build();
 
-      frontRightModule = Mk3SwerveModuleHelper.createNeo(
-        shuffleboardTab.getLayout("front right module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(2, 0),
-        Mk3SwerveModuleHelper.GearRatio.STANDARD, 
-        FRONT_RIGHT_MODULE_DRIVE_MOTOR, 
-        FRONT_RIGHT_MODULE_STEER_MOTOR, 
-        FRONT_RIGHT_MODULE_ENCODER,
-        FRONT_RIGHT_MODULE_OFFSET
-      );
+      frontRightModule = new MkSwerveModuleBuilder()
+        .withLayout(shuffleboardTab.getLayout("front right module", BuiltInLayouts.kList)
+          .withSize(2, 4)
+          .withPosition(2, 0))
+        .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
+        .withDriveMotor(MotorType.NEO, FRONT_RIGHT_MODULE_DRIVE_MOTOR)
+        .withSteerMotor(MotorType.NEO, FRONT_RIGHT_MODULE_STEER_MOTOR)
+        .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_MOTOR)
+        .withSteerOffset(FRONT_RIGHT_MODULE_OFFSET)
+        .build();
 
-      rearRightModule = Mk3SwerveModuleHelper.createNeo(
-        shuffleboardTab.getLayout("rear left module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(4, 0), 
-        Mk3SwerveModuleHelper.GearRatio.STANDARD, 
-        REAR_LEFT_MODULE_DRIVE_MOTOR, 
-        REAR_LEFT_MODULE_STEER_MOTOR, 
-        REAR_LEFT_MODULE_ENCODER,
-        REAR_LEFT_MODULE_OFFSET
-      );
-
-      rearLeftModule = Mk3SwerveModuleHelper.createNeo(
-        shuffleboardTab.getLayout("rear right module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(6, 0), 
-        Mk3SwerveModuleHelper.GearRatio.STANDARD, 
-        REAR_RIGHT_MODULE_DRIVE_MOTOR, 
-        REAR_RIGHT_MODULE_STEER_MOTOR, 
-        REAR_RIGHT_MODULE_ENCODER,
-        REAR_RIGHT_MODULE_OFFSET
-      );
+      rearLeftModule = new MkSwerveModuleBuilder()
+        .withLayout(shuffleboardTab.getLayout("rear left module", BuiltInLayouts.kList)
+          .withSize(2, 4)
+          .withPosition(4, 0))
+        .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
+        .withDriveMotor(MotorType.NEO, REAR_LEFT_MODULE_DRIVE_MOTOR)
+        .withSteerMotor(MotorType.NEO, REAR_LEFT_MODULE_STEER_MOTOR)
+        .withSteerEncoderPort(REAR_LEFT_MODULE_STEER_MOTOR)
+        .withSteerOffset(REAR_LEFT_MODULE_OFFSET)
+        .build();
+      
+      rearRightModule = new MkSwerveModuleBuilder()
+        .withLayout(shuffleboardTab.getLayout("rear right module", BuiltInLayouts.kList)
+          .withSize(2, 4)
+          .withPosition(6, 0))
+        .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
+        .withDriveMotor(MotorType.NEO, REAR_RIGHT_MODULE_DRIVE_MOTOR)
+        .withSteerMotor(MotorType.NEO, REAR_RIGHT_MODULE_STEER_MOTOR)
+        .withSteerEncoderPort(REAR_RIGHT_MODULE_STEER_MOTOR)
+        .withSteerOffset(REAR_RIGHT_MODULE_OFFSET)
+        .build();
 
       odometry = new SwerveDriveOdometry(
         kinematics, 
